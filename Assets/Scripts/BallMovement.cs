@@ -12,7 +12,7 @@ public class BallMovement : MonoBehaviour
 
     Rigidbody2D rb;
     Vector2 ballToPaddleDistance;
-    private bool isStarted = false;
+    bool isStarted = false;
     private float randomFactor = 0.2f;
 
     private void Start()
@@ -32,7 +32,7 @@ public class BallMovement : MonoBehaviour
 
     private void LaunchTheBall()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetMouseButtonDown(0))
         {
             isStarted = true;
             rb.velocity = new Vector2(xPush, yPush);
@@ -47,7 +47,7 @@ public class BallMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Vector2 velocityTweak = new Vector2(UnityEngine.Random.Range(0.1f, randomFactor), UnityEngine.Random.Range(0.1f, randomFactor));
+        Vector2 velocityTweak = new Vector2(UnityEngine.Random.Range(0.2f, randomFactor), UnityEngine.Random.Range(0.2f, randomFactor));
         if(isStarted)
         {
             rb.velocity -= velocityTweak;

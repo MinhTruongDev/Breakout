@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
-{
-    private float speed = 15f;   
-    private float xMax = 7.71f;   
-    private float xMin = -7.71f;   
+{     
+    private float xMax = 15f;   
+    private float xMin = 0f;
+    private float screenWidth_In_Unit = 15f;
+
     private void Update()
     {
         PaddleMovement();
@@ -15,16 +16,18 @@ public class PlayerControl : MonoBehaviour
 
     private void PaddleMovement()
     {
-        float xMove = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
-        transform.Translate(xMove, 0, 0);
+        
 
         /*Prevent paddle move outside of the screen.
         Sources: https://answers.unity.com/questions/925199/restricting-movement-with-mathfclamp.html */
 
-        Vector3 clampedPosition = transform.position;
-        clampedPosition.x = Mathf.Clamp(clampedPosition.x, xMin, xMax);
+        Vector2 clampedPosition = new Vector2(transform.position.x, transform.position.y);
+        clampedPosition.x = Mathf.Clamp(GetXPos(), xMin, xMax);
         transform.position = clampedPosition;
     }
    
-
+    public float GetXPos()
+    {
+        return Input.mousePosition.x / Screen.width * screenWidth_In_Unit;
+    }
 }

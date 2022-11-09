@@ -7,37 +7,36 @@ public class BlockControl : MonoBehaviour
 {
     [SerializeField] Sprite[] sprites;
     [SerializeField] private int hitPoint = 2;
+    GameObject gameController;
+    int currentSprite = 0;
 
 
     SpriteRenderer spriteRenderer;
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = sprites[0];
+        spriteRenderer.sprite = sprites[currentSprite];
+        gameController = GameObject.FindGameObjectWithTag("GameController");
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Return))
-        {
-            Hit();
-        }
-    }
+    
+    
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Hit();
+        gameController.GetComponent<GameManager>().GetPoint();
+        Hit();        
     }
 
 
     private void Hit()
     {
         
-        hitPoint--;
+        hitPoint--;       
         switch (hitPoint)
         {
             case 1:
                 {
-                    spriteRenderer.sprite = sprites[1];
+                    spriteRenderer.sprite = sprites[currentSprite+1];
                     break;
                 }
             case 0:
