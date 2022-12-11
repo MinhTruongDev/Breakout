@@ -8,24 +8,37 @@ public class BlockControl : MonoBehaviour
     [SerializeField] Sprite[] sprites;
     [SerializeField] private int hitPoint = 2;
     GameObject gameController;
+    GameManager gameManager;
     int currentSprite = 0;
 
 
     SpriteRenderer spriteRenderer;
     void Start()
     {
+        StartGame();
+    }
+
+    private void StartGame()
+    {
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprites[currentSprite];
         gameController = GameObject.FindGameObjectWithTag("GameController");
-    }
+        gameManager = FindObjectOfType<GameManager>();
+        if (tag == "Breakable")
+        {
+            gameManager.CountBlock();
+        }
 
+    }
     
-    
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         gameController.GetComponent<GameManager>().GetPoint();
-        Hit();        
+        Hit();   
+        
     }
+
 
 
     private void Hit()
@@ -42,6 +55,7 @@ public class BlockControl : MonoBehaviour
             case 0:
                 {
                     Destroy(gameObject);
+                    gameManager.BlockDestroyed();
                     break;
                 }
 

@@ -10,7 +10,10 @@ public class GameManager : MonoBehaviour
     public Text highscoreText;
     int score;
     int highscore;
+    int breakableBlock;
 
+
+    public SceneLoader sceneLoader;
 
     private void Awake()
     {
@@ -33,7 +36,7 @@ public class GameManager : MonoBehaviour
     {
         score += 1;
         scoreText.text = score.ToString();
-        if(highscore < score)
+        if (highscore < score)
         {
             PlayerPrefs.SetInt("highscore", score);
         }
@@ -42,5 +45,18 @@ public class GameManager : MonoBehaviour
     public void Restart()
     {
         Destroy(gameObject);
+    }
+    public void CountBlock()
+    {
+        breakableBlock++;
+    }
+
+    public void BlockDestroyed()
+    {
+        breakableBlock--;
+        if (breakableBlock == 0)
+        {
+            sceneLoader.LoadNextScene();
+        }
     }
 }
